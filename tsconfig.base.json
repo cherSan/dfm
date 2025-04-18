@@ -16,6 +16,15 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["development"]
+    "customConditions": ["development"],
+    "paths": {
+      "analysis/Module": ["client/apps/analysis/src/remote-entry.ts"],
+      "authorization/Module": ["client/apps/authorization/src/remote-entry.ts"],
+      "dashboard/Module": ["client/apps/dashboard/src/remote-entry.ts"],
+      "portfolio/Module": ["client/apps/portfolio/src/remote-entry.ts"],
+      "profiler/Module": ["client/apps/profiler/src/remote-entry.ts"],
+      "wallet/Module": ["client/apps/wallet/src/remote-entry.ts"]
+    },
+    "baseUrl": "."
   }
 }

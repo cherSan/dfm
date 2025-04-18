@@ -3,6 +3,29 @@
   "compileOnSave": false,
   "files": [],
   "references": [
-
+    {
+      "path": "./client/apps/host"
+    },
+    {
+      "path": "./client/apps/authorization"
+    },
+    {
+      "path": "./client/apps/dashboard"
+    },
+    {
+      "path": "./client/apps/wallet"
+    },
+    {
+      "path": "./client/apps/profiler"
+    },
+    {
+      "path": "./client/apps/analysis"
+    },
+    {
+      "path": "./client/apps/portfolio"
+    },
+    {
+      "path": "./client/libs/core"
+    }
   ]
 }
