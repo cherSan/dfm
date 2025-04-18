@@ -1,0 +1,95 @@
+{
+  "name": "host",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "client/apps/host/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "client/apps/host/dist",
+        "index": "client/apps/host/src/index.html",
+        "baseHref": "/",
+        "main": "client/apps/host/src/main.ts",
+        "tsConfig": "client/apps/host/tsconfig.app.json",
+        "assets": [
+          "client/apps/host/src/favicon.ico",
+          "client/apps/host/src/assets"
+        ],
+        "styles": [
+          "client/apps/host/src/styles.scss"
+        ],
+        "scripts": [],
+        "webpackConfig": "client/apps/host/webpack.config.ts"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "client/apps/host/src/environments/environment.ts",
+              "with": "client/apps/host/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      },
+      "dependsOn": [
+        "^build",
+        "typecheck"
+      ]
+    },
+    "serve": {
+      "executor": "@nx/react:module-federation-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "host:build",
+        "hmr": true,
+        "port": 4200
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "host:build:development"
+        },
+        "production": {
+          "buildTarget": "host:build:production",
+          "hmr": false
+        }
+      },
+      "dependsOn": [
+        "typecheck"
+      ]
+    },
+    "serve-static": {
+      "executor": "@nx/react:module-federation-static-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "serveTarget": "host:serve"
+      },
+      "configurations": {
+        "development": {
+          "serveTarget": "host:serve:development"
+        },
+        "production": {
+          "serveTarget": "host:serve:production"
+        }
+      }
+    }
+  }
+}

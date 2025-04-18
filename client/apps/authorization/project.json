@@ -1,0 +1,95 @@
+{
+  "name": "authorization",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "client/apps/authorization/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "client/apps/authorization/dist",
+        "index": "client/apps/authorization/src/index.html",
+        "baseHref": "/",
+        "main": "client/apps/authorization/src/main.ts",
+        "tsConfig": "client/apps/authorization/tsconfig.app.json",
+        "assets": [
+          "client/apps/authorization/src/favicon.ico",
+          "client/apps/authorization/src/assets"
+        ],
+        "styles": [
+          "client/apps/authorization/src/styles.scss"
+        ],
+        "scripts": [],
+        "webpackConfig": "client/apps/authorization/webpack.config.ts"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "client/apps/authorization/src/environments/environment.ts",
+              "with": "client/apps/authorization/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      },
+      "dependsOn": [
+        "^build",
+        "typecheck"
+      ]
+    },
+    "serve": {
+      "executor": "@nx/react:module-federation-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "authorization:build",
+        "hmr": true,
+        "port": 4201
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "authorization:build:development"
+        },
+        "production": {
+          "buildTarget": "authorization:build:production",
+          "hmr": false
+        }
+      },
+      "dependsOn": [
+        "typecheck"
+      ]
+    },
+    "serve-static": {
+      "executor": "@nx/react:module-federation-static-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "serveTarget": "authorization:serve"
+      },
+      "configurations": {
+        "development": {
+          "serveTarget": "authorization:serve:development"
+        },
+        "production": {
+          "serveTarget": "authorization:serve:production"
+        }
+      }
+    }
+  }
+}

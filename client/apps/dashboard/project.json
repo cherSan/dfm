@@ -1,0 +1,95 @@
+{
+  "name": "dashboard",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "client/apps/dashboard/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "client/apps/dashboard/dist",
+        "index": "client/apps/dashboard/src/index.html",
+        "baseHref": "/",
+        "main": "client/apps/dashboard/src/main.ts",
+        "tsConfig": "client/apps/dashboard/tsconfig.app.json",
+        "assets": [
+          "client/apps/dashboard/src/favicon.ico",
+          "client/apps/dashboard/src/assets"
+        ],
+        "styles": [
+          "client/apps/dashboard/src/styles.scss"
+        ],
+        "scripts": [],
+        "webpackConfig": "client/apps/dashboard/webpack.config.ts"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "client/apps/dashboard/src/environments/environment.ts",
+              "with": "client/apps/dashboard/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      },
+      "dependsOn": [
+        "^build",
+        "typecheck"
+      ]
+    },
+    "serve": {
+      "executor": "@nx/react:module-federation-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "dashboard:build",
+        "hmr": true,
+        "port": 4202
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "dashboard:build:development"
+        },
+        "production": {
+          "buildTarget": "dashboard:build:production",
+          "hmr": false
+        }
+      },
+      "dependsOn": [
+        "typecheck"
+      ]
+    },
+    "serve-static": {
+      "executor": "@nx/react:module-federation-static-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "serveTarget": "dashboard:serve"
+      },
+      "configurations": {
+        "development": {
+          "serveTarget": "dashboard:serve:development"
+        },
+        "production": {
+          "serveTarget": "dashboard:serve:production"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "authorization": "http://localhost:4201/mf-manifest.json",
+  "dashboard": "http://localhost:4202/mf-manifest.json",
+  "wallet": "http://localhost:4203/mf-manifest.json",
+  "profiler": "http://localhost:4204/mf-manifest.json",
+  "analysis": "http://localhost:4205/mf-manifest.json",
+  "portfolio": "http://localhost:4206/mf-manifest.json"
+}

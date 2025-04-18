@@ -1,0 +1,95 @@
+{
+  "name": "wallet",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "client/apps/wallet/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "client/apps/wallet/dist",
+        "index": "client/apps/wallet/src/index.html",
+        "baseHref": "/",
+        "main": "client/apps/wallet/src/main.ts",
+        "tsConfig": "client/apps/wallet/tsconfig.app.json",
+        "assets": [
+          "client/apps/wallet/src/favicon.ico",
+          "client/apps/wallet/src/assets"
+        ],
+        "styles": [
+          "client/apps/wallet/src/styles.scss"
+        ],
+        "scripts": [],
+        "webpackConfig": "client/apps/wallet/webpack.config.ts"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "client/apps/wallet/src/environments/environment.ts",
+              "with": "client/apps/wallet/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      },
+      "dependsOn": [
+        "^build",
+        "typecheck"
+      ]
+    },
+    "serve": {
+      "executor": "@nx/react:module-federation-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "wallet:build",
+        "hmr": true,
+        "port": 4203
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "wallet:build:development"
+        },
+        "production": {
+          "buildTarget": "wallet:build:production",
+          "hmr": false
+        }
+      },
+      "dependsOn": [
+        "typecheck"
+      ]
+    },
+    "serve-static": {
+      "executor": "@nx/react:module-federation-static-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "serveTarget": "wallet:serve"
+      },
+      "configurations": {
+        "development": {
+          "serveTarget": "wallet:serve:development"
+        },
+        "production": {
+          "serveTarget": "wallet:serve:production"
+        }
+      }
+    }
+  }
+}
