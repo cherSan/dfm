@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Link, Route, Routes } from 'react-router';
+import {Link, Navigate, Route, Routes} from 'react-router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
-
+import {usePassport} from "@dfm/core/dist";
 
 const Authorization = React.lazy(() => loadRemote('authorization/Module') as any);
 const Portfolio = React.lazy(() => loadRemote('portfolio/Module') as any);
@@ -11,6 +11,17 @@ const Profiler = React.lazy(() => loadRemote('profiler/Module') as any);
 const Analysis = React.lazy(() => loadRemote('analysis/Module') as any);
 
 export function App() {
+  const { user } = usePassport();
+
+  if (!user) {
+    return (
+      <React.Suspense fallback={null}>
+        <Route path="/" element={<Authorization />} />
+        <Route path="*" element={<Navigate to={'/'} replace={true} />} />
+      </React.Suspense>
+    )
+  }
+
   return (
     <React.Suspense fallback={null}>
       <ul>

@@ -26,6 +26,9 @@
     },
     {
       "path": "./client/libs/core"
+    },
+    {
+      "path": "./client/libs/ui"
     }
   ]
 }
